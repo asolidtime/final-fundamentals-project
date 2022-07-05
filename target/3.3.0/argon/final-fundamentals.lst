@@ -13,31 +13,31 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   4 .backup       00000004  2003f400  000b8f84  0000f400  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  5 .data         00000070  2003e564  000b8f88  0001e564  2**2
+  5 .data         0000006c  2003e564  000b8f88  0001e564  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .bss          0000021c  2003e5d4  2003e5d4  0002e5d4  2**2
+  6 .bss          00000220  2003e5d0  2003e5d0  0002e5d0  2**2
                   ALLOC
-  7 .module_info_suffix 00000028  000b8ff8  000b8ff8  00028ff8  2**0
+  7 .module_info_suffix 00000028  000b8ff4  000b8ff4  00028ff4  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  8 .module_info_crc 00000004  000b9020  000b9020  00029020  2**0
+  8 .module_info_crc 00000004  000b901c  000b901c  0002901c  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  9 .debug_info   00132d64  00000000  00000000  00029024  2**0
+  9 .debug_info   00132d9d  00000000  00000000  00029020  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 10 .debug_abbrev 00014d8b  00000000  00000000  0015bd88  2**0
+ 10 .debug_abbrev 00014db8  00000000  00000000  0015bdbd  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 11 .debug_aranges 00002fd0  00000000  00000000  00170b13  2**0
+ 11 .debug_aranges 00002fd8  00000000  00000000  00170b75  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 12 .debug_macro  0003ef2f  00000000  00000000  00173ae3  2**0
+ 12 .debug_macro  0003ef2f  00000000  00000000  00173b4d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_line   0004891e  00000000  00000000  001b2a12  2**0
+ 13 .debug_line   0004893e  00000000  00000000  001b2a7c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_str    0013a2f2  00000000  00000000  001fb330  2**0
+ 14 .debug_str    0013a304  00000000  00000000  001fb3ba  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_loc    0003f65e  00000000  00000000  00335622  2**0
+ 15 .debug_loc    0003f65e  00000000  00000000  003356be  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_ranges 0000a8b8  00000000  00000000  00374c80  2**0
+ 16 .debug_ranges 0000a8c0  00000000  00000000  00374d1c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_frame  00008bbc  00000000  00000000  0037f538  2**2
+ 17 .debug_frame  00008bcc  00000000  00000000  0037f5dc  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -78,8 +78,8 @@ void* module_user_pre_init() {
    b4046:	bf00      	nop
    b4048:	2003e564 	.word	0x2003e564
    b404c:	000b8f88 	.word	0x000b8f88
-   b4050:	2003e5d4 	.word	0x2003e5d4
-   b4054:	2003e5d4 	.word	0x2003e5d4
+   b4050:	2003e5d0 	.word	0x2003e5d0
+   b4054:	2003e5d0 	.word	0x2003e5d0
    b4058:	2003e7ed 	.word	0x2003e7ed
 
 000b405c <module_user_init>:
@@ -202,10 +202,10 @@ void __cxa_guard_release (__guard *g) {*(char *)g = 1;};
 	...
 
 000b40d0 <_Z11normalStatev>:
-
-int currentState = 3;
-int minValue = 0;
-int maxValue = 0;
+BLYNK_WRITE (V0)
+{
+  currentState = 3;
+}
 
 void normalState() {
    b40d0:	b510      	push	{r4, lr}
@@ -482,7 +482,7 @@ static inline void delay(std::chrono::milliseconds ms) { ::delay(ms.count()); }
    b42a2:	f002 bcca 	b.w	b6c3a <_ZN5Print7printlnEPKc>
 }
    b42a6:	bd38      	pop	{r3, r4, r5, pc}
-   b42a8:	2003e564 	.word	0x2003e564
+   b42a8:	2003e638 	.word	0x2003e638
    b42ac:	000b8008 	.word	0x000b8008
    b42b0:	2003e63c 	.word	0x2003e63c
    b42b4:	000b801e 	.word	0x000b801e
@@ -511,10 +511,10 @@ public:
   inline void setClock(uint32_t speed) {
 	  setSpeed(speed);
    b42de:	4915      	ldr	r1, [pc, #84]	; (b4334 <setup+0x64>)
-  pinMode(POT, INPUT);
-  pinMode(BUTTON, INPUT_PULLDOWN);
   pinMode(TMP36, INPUT);
-  //Blynk.begin("QnAwxbXEtUAXJ_pHkObTkMagiLke5zMZ", IPAddress(167, 172, 234, 162), 8080);
+  #ifdef BLYNK
+  Blynk.begin("QnAwxbXEtUAXJ_pHkObTkMagiLke5zMZ", IPAddress(167, 172, 234, 162), 8080);
+  #endif
   display.setup();
   proximitySensor.begin();
    b42e0:	4c15      	ldr	r4, [pc, #84]	; (b4338 <setup+0x68>)
@@ -569,8 +569,9 @@ void loop() {
    b4340:	b537      	push	{r0, r1, r2, r4, r5, lr}
   // The core of your code will likely live here.
   //
-  
-  //Blynk.run();
+  #ifdef BLYNK
+  Blynk.run();
+  #endif
   display.loop();
    b4342:	4c10      	ldr	r4, [pc, #64]	; (b4384 <loop+0x44>)
    b4344:	4620      	mov	r0, r4
@@ -665,10 +666,10 @@ OledWingAdafruit display;
    b43cc:	4806      	ldr	r0, [pc, #24]	; (b43e8 <_GLOBAL__sub_I_SystemMode+0x60>)
    b43ce:	2107      	movs	r1, #7
    b43d0:	f000 be82 	b.w	b50d8 <_ZN16OledWingAdafruitC1Ei>
-   b43d4:	2003e5f4 	.word	0x2003e5f4
-   b43d8:	2003e600 	.word	0x2003e600
+   b43d4:	2003e5f0 	.word	0x2003e5f0
+   b43d8:	2003e5fc 	.word	0x2003e5fc
    b43dc:	ffff0000 	.word	0xffff0000
-   b43e0:	2003e5d4 	.word	0x2003e5d4
+   b43e0:	2003e5d0 	.word	0x2003e5d0
    b43e4:	2003e6b4 	.word	0x2003e6b4
    b43e8:	2003e63c 	.word	0x2003e63c
 
@@ -7291,7 +7292,7 @@ void module_user_init_hook()
     }, nullptr);
    b6a60:	4770      	bx	lr
    b6a62:	bf00      	nop
-   b6a64:	2003e56c 	.word	0x2003e56c
+   b6a64:	2003e568 	.word	0x2003e568
 
 000b6a68 <serialEventRun>:
 {
@@ -7521,7 +7522,7 @@ const char* TimeClass::format_spec = TIME_FORMAT_DEFAULT;
 TimeClass Time;
    b6ba8:	4770      	bx	lr
    b6baa:	bf00      	nop
-   b6bac:	2003e568 	.word	0x2003e568
+   b6bac:	2003e564 	.word	0x2003e564
    b6bb0:	2003e704 	.word	0x2003e704
 
 000b6bb4 <_GLOBAL__sub_I__ZN5spark3LogE>:
@@ -9944,7 +9945,7 @@ int32_t analogRead(pin_t pin)
    b7eca:	611c      	str	r4, [r3, #16]
    b7ecc:	615a      	str	r2, [r3, #20]
    b7ece:	bd38      	pop	{r3, r4, r5, pc}
-   b7ed0:	2003e56c 	.word	0x2003e56c
+   b7ed0:	2003e568 	.word	0x2003e568
    b7ed4:	000b8e99 	.word	0x000b8e99
    b7ed8:	000b8eb0 	.word	0x000b8eb0
    b7edc:	abcd330e 	.word	0xabcd330e
@@ -10037,7 +10038,7 @@ int32_t analogRead(pin_t pin)
    b7fc0:	2003e75c 	.word	0x2003e75c
    b7fc4:	00000000 	.word	0x00000000
    b7fc8:	000b5e59 	.word	0x000b5e59
-   b7fcc:	2003e5d0 	.word	0x2003e5d0
+   b7fcc:	2003e5cc 	.word	0x2003e5cc
 
 000b7fd0 <__retarget_lock_acquire_recursive>:
    b7fd0:	4770      	bx	lr

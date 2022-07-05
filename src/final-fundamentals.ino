@@ -41,6 +41,7 @@ void normalState() {
   display.println(fahrenheit);
   //unsigned int proxValue = proximitySensor.getProximity();
   unsigned int lightValue = proximitySensor.getAmbient();
+  Blynk.virtualWrite(V1, lightValue);
   digitalWrite(BLUE, LOW);
   digitalWrite(RED, LOW);
   digitalWrite(GREEN, LOW);
@@ -120,6 +121,7 @@ void loop() {
   display.setCursor(0, 0);
   display.setTextColor(WHITE);
   int mappedRead = map(analogRead(POT), 0, 4095, 0, 65535);
+  
   mainRun(mappedRead);
   display.display();
 }

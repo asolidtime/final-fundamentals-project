@@ -10,13 +10,15 @@
  * Author:
  * Date:
  */
-
+//#define BLYNK
 void normalState();
 void mainRun(int reading);
 void setup();
 void loop();
 #line 8 "/home/maxwell/CTD-IoT/d5/final-fundamentals/src/final-fundamentals.ino"
+#ifndef BLYNK
 SYSTEM_MODE(MANUAL);
+#endif
 #include "Wire.h"
 #include "SparkFun_VCNL4040_Arduino_Library.h"
 #include "oled-wing-adafruit.h"
@@ -32,9 +34,14 @@ SYSTEM_MODE(MANUAL);
 VCNL4040 proximitySensor;
 OledWingAdafruit display;
 
-int currentState = 3;
+int currentState = 0;
 int minValue = 0;
 int maxValue = 0;
+
+BLYNK_WRITE (V0)
+{
+  currentState = 3;
+}
 
 void normalState() {
   double reading = analogRead(TMP36);
@@ -104,7 +111,9 @@ void setup() {
   pinMode(POT, INPUT);
   pinMode(BUTTON, INPUT_PULLDOWN);
   pinMode(TMP36, INPUT);
-  //Blynk.begin("QnAwxbXEtUAXJ_pHkObTkMagiLke5zMZ", IPAddress(167, 172, 234, 162), 8080);
+  #ifdef BLYNK
+  Blynk.begin("QnAwxbXEtUAXJ_pHkObTkMagiLke5zMZ", IPAddress(167, 172, 234, 162), 8080);
+  #endif
   display.setup();
   proximitySensor.begin();
   proximitySensor.powerOnAmbient();
@@ -114,8 +123,9 @@ void setup() {
 void loop() {
   // The core of your code will likely live here.
   //
-  
-  //Blynk.run();
+  #ifdef BLYNK
+  Blynk.run();
+  #endif
   display.loop();
   display.clearDisplay();
   display.setCursor(0, 0);
