@@ -37,8 +37,10 @@ void normalState() {
   double millivolts = (reading / 4095) * 3300; // I looked up the formula before you shared it with the class lol
   double temp = (millivolts - 500) / 10;
   double fahrenheit = (temp * 1.8) + 32;
-  display.print("temp: ");
+  display.print("tempF: ");
   display.println(fahrenheit);
+  display.print("tempC: ");
+  display.println(temp);
   //unsigned int proxValue = proximitySensor.getProximity();
   unsigned int lightValue = proximitySensor.getAmbient();
   Blynk.virtualWrite(V1, lightValue);
